@@ -1,57 +1,44 @@
 ---
-title: "Week 6 Worklog"
-date: 2024-01-01
-weight: 1
-chapter: false
-pre: " <b> 1.6. </b> "
+title: "1.6. Week 6 Worklog"
+weight: 16
+draft: false
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+# 1.6. Week 6: Quy trình Phê duyệt & Quản lý Vòng đời Tài liệu
 
 ### Week 6 Objectives:
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Xây dựng quy trình điều phối phê duyệt tài liệu tự động bằng AWS Step Functions.
+* Tích hợp Amazon SNS để gửi thông báo tự động (email) cho các sự kiện quan trọng trong hệ thống.
+* Triển khai cơ chế chia sẻ tài liệu an toàn và quản lý vòng đời tài liệu (Lifecycle Management) đa cấp độ.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Day | Task | Start Date | Completion Date | Reference Material |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Xây dựng State Machine (`approval.asl.json`) trên AWS Step Functions để điều phối luồng phê duyệt tài liệu | 27/07/2026 | 27/07/2026 | README.md |
+| 2 | Tích hợp Amazon SNS để cấu hình gửi thông báo email tự động khi có sự kiện duyệt hoặc chia sẻ tài liệu | 28/07/2026 | 28/07/2026 | README.md |
+| 3 | Lập trình chức năng chia sẻ tài liệu có kiểm soát thông qua các đường dẫn hết hạn (Pre-signed URL) | 29/07/2026 | 29/07/2026 | README.md |
+| 4 | Triển khai cơ chế Soft Delete, đưa tài liệu vào thùng rác (trạng thái TRASH) và cho phép khôi phục trong 30 ngày | 30/07/2026 | 30/07/2026 | Business.pdf |
+| 5 | Cấu hình thuộc tính `ttl` để hệ thống tự động xóa vĩnh viễn (Hard Delete) tài liệu quá hạn | 31/07/2026 | 31/07/2026 | Business.pdf |
 
-### Week 6 Achievements:
+---
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+### Chi tiết thực hiện
 
-* Successfully created and configured an AWS Free Tier account.
+**1. Điều phối Quy trình Phê duyệt (Step Functions)**
+Nhằm giải quyết bài toán không có quy trình phê duyệt trước khi công bố nội bộ, hệ thống đã ứng dụng AWS Step Functions. Một State Machine được định nghĩa (thông qua file `approval.asl.json`) để điều phối logic của Lambda function `approval_tasks`, đảm bảo tài liệu phải trải qua các bước kiểm duyệt nghiêm ngặt từ cấp quản lý trước khi được gắn nhãn APPROVED và công bố cho toàn công ty.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+**2. Thông báo tự động (Amazon SNS)**
+Để tăng tính tương tác, module thông báo (`notify` function) đã được triển khai thông qua Amazon SNS. Hệ thống sẽ tự động phát (publish) một tin nhắn báo động qua email người dùng mỗi khi một tài liệu mà họ sở hữu/theo dõi được phê duyệt thành công, hoặc khi họ nhận được lượt chia sẻ tài liệu mới từ đồng nghiệp.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+**3. Quản lý Vòng đời & Chia sẻ (Lifecycle & Sharing)**
+* **Chia sẻ (Sharing):** Tính năng chia sẻ tài liệu ra bên ngoài (hoặc nội bộ có kiểm soát) được thực hiện bằng cách khởi tạo các đường link có giới hạn thời gian (Pre-signed URL). 
+* **Quản lý vòng đời (Lifecycle):** Để ngăn ngừa thao tác xóa nhầm lẫn từ người dùng, hệ thống cung cấp hai mức độ xóa. Mức Soft Delete sẽ đánh dấu tài liệu (`status: TRASH`), đưa vào thùng rác và cho phép khôi phục trong 30 ngày. Mức Hard Delete sẽ thực sự xóa bỏ tài liệu vĩnh viễn khỏi hệ thống. Thuộc tính Time-To-Live (`ttl`) được sử dụng để tự động dọn dẹp các tài liệu nằm trong thùng rác vượt quá thời gian quy định mà không cần viết code luồng chạy ngầm phức tạp.
 
-* Used AWS CLI to perform basic operations such as:
+---
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+### Khó khăn & Giải pháp
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* **Khó khăn:** Quản lý việc dọn dẹp các tài liệu (Hard delete) sau 30 ngày lưu trong thùng rác thường đòi hỏi phải thiết lập các kịch bản chạy ngầm (cron jobs) để quét toàn bộ cơ sở dữ liệu định kỳ, gây tiêu tốn tài nguyên tính toán.
+* **Giải pháp:** Tối ưu hóa bằng cách kết hợp cơ chế `ttl` của cơ sở dữ liệu (tự động xóa bản ghi khi mốc Unix Timestamp hết hạn) cùng với Amazon EventBridge Scheduled rule (soft-delete cleanup) để ủy thác toàn bộ gánh nặng dọn dẹp (garbage collection) cho hạ tầng AWS. 

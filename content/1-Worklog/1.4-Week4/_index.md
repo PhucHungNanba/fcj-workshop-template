@@ -1,57 +1,45 @@
 ---
-title: "Week 4 Worklog"
-date: 2024-01-01
-weight: 1
-chapter: false
-pre: " <b> 1.4. </b> "
+title: "1.4. Week 4 Worklog"
+weight: 14
+draft: false
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+# 1.4. Week 4: Xây dựng API Cốt lõi (Backend Java 17)
 
 ### Week 4 Objectives:
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Phát triển các Lambda function xử lý nghiệp vụ quản lý tài liệu (Document CRUD) bằng ngôn ngữ Java 17.
+* Xây dựng logic quản lý phiên bản (Versioning Control) và tính năng khôi phục (Rollback) cho tài liệu.
+* Xử lý logic phân quyền truy cập tài liệu với các vai trò (Role): Owner, Editor, Viewer.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Day | Task | Start Date | Completion Date | Reference Material |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Lập trình Lambda function `document_crud` bằng Java 17 để tạo, đọc, sửa, xóa tài liệu | 13/07/2026 | 13/07/2026 | README.md |
+| 2 | Xử lý dữ liệu văn bản từ Rich-text editor, tự động chuyển đổi sang định dạng JSON để lưu trữ | 14/07/2026 | 14/07/2026 | Business.pdf |
+| 3 | Triển khai luồng quản lý phiên bản, tự động sinh `versionNumber` mới sau mỗi lần Editor lưu | 15/07/2026 | 15/07/2026 | Business.pdf |
+| 4 | Lập trình chức năng Rollback, cho phép khôi phục bản cũ và khóa các bản trong quá khứ ở chế độ Read-only | 16/07/2026 | 16/07/2026 | Business.pdf |
+| 5 | Hoàn thiện module Phân quyền (Permissions), thiết lập từ chối truy cập nếu không có quyền hợp lệ | 17/07/2026 | 17/07/2026 | Business.pdf |
 
-### Week 4 Achievements:
+---
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+### Chi tiết thực hiện
 
-* Successfully created and configured an AWS Free Tier account.
+**1. Xây dựng API Quản lý Tài liệu**
+Backend của hệ thống được phát triển hoàn toàn bằng Java 17 (Amazon Corretto) và AWS SDK v2. Các hàm Lambda cốt lõi như `document_crud`, `list_documents`, `folder_mgmt` đã được lập trình để xử lý dữ liệu truyền lên từ không gian soạn thảo trực tuyến (Rich-text Editing Workspace). Tại Frontend, các định dạng văn bản đặc thù (Heading, Code Snippet, Highlight) được tự động chuyển đổi sang định dạng JSON trước khi Backend tiến hành lưu trữ xuống cơ sở dữ liệu.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+**2. Quản lý Phiên bản (Versioning Control)**
+Nhằm bảo vệ tính toàn vẹn của lịch sử tài liệu, hệ thống tự động ghi nhận mọi thao tác chỉnh sửa của các thành viên (Editor) thành các phiên bản độc lập. 
+* Mặc định, phiên bản mới nhất (`versionNumber` lớn nhất) sẽ được đặt làm bản hiện hành (`isCurrent: true`). 
+* Khi người dùng thực hiện thao tác Rollback, hệ thống sẽ khôi phục một version cũ làm bản sử dụng chung, đồng thời các version trong quá khứ sẽ tự động bị khóa ở chế độ "Chỉ xem" (Read-only).
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+**3. Kiểm soát Phân quyền Truy cập (RBAC)**
+Hệ thống hoàn thiện logic phân quyền thông qua thực thể Permissions. Chủ sở hữu tài liệu (Owner) được cấp công cụ để chia sẻ quyền hạn cho các thành viên khác bao gồm View Only (Viewer - chỉ xem) và Editor (được phép chỉnh sửa). Hệ thống được cấu hình để từ chối truy cập lập tức nếu người dùng gửi request không đi kèm quyền hợp lệ trong bảng Permissions.
 
-* Used AWS CLI to perform basic operations such as:
+---
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+### Khó khăn & Giải pháp
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* **Khó khăn:** Các hàm Lambda viết bằng Java 17 thường gặp phải tình trạng khởi động chậm (Cold start) mất khoảng 1-3s, chậm hơn nhiều so với Python, gây ảnh hưởng đến trải nghiệm người dùng khi gọi API lần đầu.
+* **Giải pháp:** Áp dụng tính năng Lambda SnapStart (chỉ hỗ trợ cho môi trường Java). Việc khai báo thuộc tính `SnapStart: ApplyOn: PublishedVersions` trong template cấu hình giúp AWS chụp sẵn snapshot của JVM đã được khởi tạo (init), từ đó giảm đáng kể thời gian khởi động lạnh của hệ thống khi có request.

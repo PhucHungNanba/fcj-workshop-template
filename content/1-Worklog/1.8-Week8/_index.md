@@ -1,57 +1,43 @@
 ---
-title: "Week 8 Worklog"
-date: 2024-01-01
-weight: 1
-chapter: false
-pre: " <b> 1.8. </b> "
+title: "1.8. Week 8 Worklog"
+weight: 18
+draft: false
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+# 1.8. Week 8: Kiểm thử, Giám sát & Tối ưu Chi phí Dự án
 
 ### Week 8 Objectives:
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Đảm bảo chất lượng mã nguồn thông qua Unit Test và Integration Test trên môi trường thực tế.
+* Giám sát, phân tích hiệu năng hệ thống phân tán bằng AWS X-Ray và Amazon CloudWatch.
+* Hoàn tất nghiệm thu, dọn dẹp tài nguyên (Clean up) để tối ưu hóa chi phí vận hành về 0 USD.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Day | Task | Start Date | Completion Date | Reference Material |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Viết Unit test cho các module backend Java 17 sử dụng framework JUnit 5 và Mockito | 10/08/2026 | 10/08/2026 | README.md |
+| 2 | Chạy kịch bản kiểm thử tích hợp (E2E) trên môi trường Dev thật bằng Bash script | 11/08/2026 | 11/08/2026 | README.md |
+| 3 | Tích hợp AWS X-Ray để theo dõi vết (distributed tracing) từ API Gateway tới Lambda và Database | 12/08/2026 | 12/08/2026 | README.md |
+| 4 | Rà soát log hệ thống trên Amazon CloudWatch, phân tích nguyên nhân Cold Start | 13/08/2026 | 13/08/2026 | README.md |
+| 5 | Dọn dẹp tài nguyên: Xóa S3 Bucket, xóa SAM stack, xóa Cognito User Pool để đưa chi phí về $0 | 14/08/2026 | 14/08/2026 | EDMS-Serverless-Roadmap.md |
 
-### Week 8 Achievements:
+---
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+### Chi tiết thực hiện
 
-* Successfully created and configured an AWS Free Tier account.
+**1. Kiểm thử Tự động (Testing)**
+Nhằm đảm bảo chất lượng phần mềm trước khi nghiệm thu, hệ thống đã trải qua hai cấp độ kiểm thử. Ở cấp độ mã nguồn, các bài Unit test được viết cho từng module Java riêng biệt, cho phép chạy cục bộ mà không tốn chi phí Cloud. Ở cấp độ hệ thống, các kịch bản Integration test được thực thi để giả lập luồng upload người dùng thực tế trên môi trường Dev đã triển khai.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+**2. Giám sát & Theo dõi (Observability)**
+Kiến trúc Serverless với nhiều dịch vụ phân tán rất khó để debug nếu chỉ dùng log thông thường. Hệ thống đã tích hợp AWS X-Ray để kích hoạt tính năng theo dõi vết (Distributed Tracing), giúp team dễ dàng vẽ lại bản đồ giao tiếp giữa các dịch vụ và xác định chính xác nút thắt cổ chai (bottleneck) về hiệu năng.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+**3. Tối ưu Chi phí & Dọn dẹp (Tear down)**
+Quản lý chi phí là một kỹ năng quan trọng trong Cloud Computing. Do một số dịch vụ không thể tự động scale về mức 0 USD khi nhàn rỗi, sau khi hoàn thành buổi demo và nghiệm thu dự án, toàn bộ hệ thống đã được "tear down" (dọn dẹp). Các lệnh xóa từ AWS CLI được sử dụng để dọn sạch hoàn toàn các tài nguyên đã khởi tạo, đảm bảo chi phí AWS trong các tháng tiếp theo sẽ được duy trì ở mức 0 USD.
 
-* Used AWS CLI to perform basic operations such as:
+---
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+### Khó khăn & Giải pháp
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* **Khó khăn:** Quá trình chạy Integration Test bị lỗi ngẫu nhiên do hàm Lambda Java mất quá nhiều thời gian khởi động (Cold start), dẫn đến timeout ở tầng API Gateway.
+* **Giải pháp:** Áp dụng kỹ thuật "khởi động ấm" (Warm up). Trước khi chạy các script test e2e tự động hoặc trước khi bắt đầu phiên demo trực tiếp, thực hiện invoke thử một lần tất cả các function để khởi tạo sẵn JVM (Java Virtual Machine), đảm bảo các request tiếp theo được xử lý trơn tru với độ trễ thấp.
