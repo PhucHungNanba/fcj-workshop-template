@@ -1,46 +1,36 @@
 ---
-title: "1.1. Week 1 Worklog"
+title: "Week 1: AWS Fundamentals & Account Setup"
+date: 2026-08-11
 weight: 11
-draft: false
+chapter: false
 ---
 
-# 1.1. Week 1: Khởi tạo Môi trường & Phân tích Kiến trúc
+# Week 1: AWS Fundamentals & Account Setup
+*Tuần 1: Khái niệm cơ bản về AWS & Thiết lập tài khoản*
 
-### Week 1 Objectives:
+### Objectives | Mục tiêu tuần 1
 
-* Phân tích kiến trúc hệ thống EDMS (Enterprise Document Management System) theo mô hình Serverless trên AWS.
-* Thiết lập tài khoản AWS an toàn tuân thủ tiêu chuẩn bảo mật doanh nghiệp.
-* Chuẩn bị và đồng bộ hóa môi trường phát triển cục bộ (Local Development) cho toàn bộ nhóm.
-
-### Tasks to be carried out this week:
-
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | - Phân tích kiến trúc Serverless v2<br>- Đánh giá các dịch vụ AWS: Cognito, S3, Lambda, API Gateway<br>- Thống nhất sử dụng Aurora Serverless v2 (MySQL) và DynamoDB | 22/06/2026 | 22/06/2026 | Tài liệu kiến trúc EDMS |
-| 2 | - Khởi tạo tài khoản AWS chung<br>- Thiết lập bảo mật Root user (MFA)<br>- Tạo IAM User riêng biệt cho các thành viên<br>- Cấu hình Billing Alarm ($5/tháng) | 23/06/2026 | 23/06/2026 | AWS IAM & Billing Documentation |
-| 3 | - Cài đặt môi trường lập trình: JDK 17 (Amazon Corretto), Maven 3.8+, AWS SAM CLI<br>- Cấu hình AWS CLI với Access Key cá nhân | 24/06/2026 | 24/06/2026 | AWS SAM CLI Setup Guide |
-| 4 | - Khởi tạo GitHub repository và phân quyền<br>- Thiết lập các branch tiêu chuẩn (main, develop)<br>- Phân tích và chuẩn bị luồng xác thực OIDC cho GitHub Actions | 25/06/2026 | 25/06/2026 | GitHub Actions OIDC Trust Policy |
-| 5 | - Báo cáo tiến độ tuần 1<br>- Lên kế hoạch chi tiết cho việc thiết kế Database ở tuần tiếp theo | 26/06/2026 | 26/06/2026 | EDMS-Master-Checklist |
+* Understand the core concepts of Cloud Computing and AWS global infrastructure.
+  *Hiểu các khái niệm cốt lõi về Điện toán đám mây và cấu trúc hạ tầng toàn cầu của AWS.*
+* Set up a secure AWS Free Tier account, enforce security best practices, and establish cost control boundaries.
+  *Thiết lập tài khoản AWS Free Tier an toàn, áp dụng các tiêu chuẩn bảo mật và kiểm soát chi phí.*
 
 ---
 
-### Chi tiết thực hiện
+### Tasks Completed | Công việc đã thực hiện
 
-**1. Phân tích kiến trúc và rà soát công nghệ (Tech Stack Review)**
-Hệ thống được thiết kế theo hướng polyglot persistence nhằm tối ưu hóa chi phí và hiệu năng. Kiến trúc sử dụng Aurora Serverless v2 để quản lý dữ liệu quan hệ phức tạp và DynamoDB chuyên biệt cho việc lưu vết hệ thống (AuditLog). Các dịch vụ vệ tinh bao gồm Cognito cho xác thực và S3 cho lưu trữ vật lý.
-
-**2. Thiết lập tài nguyên và Bảo mật hạ tầng AWS**
-Áp dụng nguyên tắc quyền đặc quyền tối thiểu (Least Privilege). Tài khoản Root được bảo vệ nghiêm ngặt bằng Multi-Factor Authentication (MFA). Các thành viên trong nhóm thao tác hoàn toàn thông qua IAM User độc lập. Cơ chế kiểm soát chi phí được kích hoạt thông qua AWS CloudWatch Billing Alarm.
-
-**3. Khởi tạo môi trường phát triển (Local Development Setup)**
-Đảm bảo tính đồng nhất trong môi trường phát triển của toàn đội bằng việc chuẩn hóa các phiên bản công cụ lõi: Java 17, Maven và AWS Serverless Application Model (SAM) CLI. 
-
-**4. Quản lý mã nguồn và luồng CI/CD cơ bản**
-Mã nguồn được quản lý tập trung trên GitHub. Kế hoạch triển khai CI/CD (Continuous Integration / Continuous Deployment) được định hình dựa trên giao thức OIDC (OpenID Connect), loại bỏ hoàn toàn rủi ro lộ lọt thông tin khi không cần lưu trữ static AWS keys.
+| Day | Task Details | Date |
+| :---: | :--- | :---: |
+| **1** | **Onboarding & Account Creation**<br>- Joined the FCAJ orientation and reviewed internship guidelines.<br>- Created a personal AWS Free Tier account.<br><br>*Tiếp nhận & Tạo tài khoản*<br>*- Tham gia buổi định hướng FCAJ và phổ biến nội quy.*<br>*- Tạo tài khoản AWS Free Tier cá nhân.* | 02/06/2025 |
+| **2** | **Identity & Cost Management**<br>- Secured the Root user account by enabling Multi-Factor Authentication (MFA).<br>- Created an IAM Admin user for daily operations to follow the Least Privilege principle.<br>- Configured AWS Budgets to trigger billing alarms (Threshold: $5/month).<br><br>*Quản lý Truy cập & Chi phí*<br>*- Bật xác thực đa yếu tố (MFA) để bảo vệ tài khoản Root.*<br>*- Tạo tài khoản IAM Admin để làm việc hằng ngày theo nguyên tắc quyền tối thiểu.*<br>*- Cài đặt cảnh báo chi phí bằng AWS Budgets (Giới hạn: $5/tháng).* | 04/06/2025 |
+| **3** | **AWS CLI & Service Overview**<br>- Installed and configured the AWS Command Line Interface (CLI) using Access Keys.<br>- Explored foundational services via AWS Documentation: Compute (EC2), Storage (S3), and Networking (VPC).<br><br>*Cài đặt CLI & Tổng quan dịch vụ*<br>*- Cài đặt và cấu hình AWS CLI bằng Access Keys.*<br>*- Tìm hiểu các dịch vụ nền tảng qua tài liệu: Máy chủ (EC2), Lưu trữ (S3) và Mạng (VPC).* | 06/06/2025 |
 
 ---
 
-### Khó khăn & Giải pháp
+### Results Achieved | Kết quả đạt được
 
-* **Khó khăn:** Quản lý chi phí cho cụm cơ sở dữ liệu Aurora Serverless v2, do dịch vụ này không tự động scale về mức 0 ACU khi hệ thống ở trạng thái nhàn rỗi (idle).
-* **Giải pháp:** Thiết lập quy trình vận hành nội bộ nghiêm ngặt. Hệ thống cluster phải được chủ động dừng (stop) hoặc tự động hóa việc dọn dẹp thông qua AWS CLI sau mỗi phiên làm việc nhằm tối ưu hóa chi phí dự án.
+* **Security & Cost Baseline:** Successfully established a well-architected baseline for the AWS account. The root environment is fully secured, and billing alarms ensure no unexpected charges occur during the learning process.
+  *Nền tảng Bảo mật & Chi phí: Thiết lập thành công môi trường an toàn cho tài khoản AWS. Tài khoản gốc được bảo vệ tuyệt đối và hệ thống cảnh báo giúp ngăn ngừa mọi rủi ro phát sinh chi phí ngoài ý muốn trong quá trình học tập.*
+
+* **Operational Readiness:** Completely transitioned away from Root user operations. The local development environment is fully operational with AWS CLI, allowing for resource management directly from the terminal.
+  *Sẵn sàng Vận hành: Loại bỏ hoàn toàn việc sử dụng tài khoản Root. Môi trường phát triển cục bộ đã được kết nối thành công qua AWS CLI, cho phép quản lý tài nguyên trực tiếp bằng dòng lệnh.*

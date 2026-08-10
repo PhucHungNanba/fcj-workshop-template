@@ -1,43 +1,38 @@
 ---
-title: "1.5. Week 5 Worklog"
+title: "Week 5: EDMS Project - Backend Logic & API Gateway"
+date: 2026-08-11
 weight: 15
-draft: false
+chapter: false
 ---
 
-# 1.5. Week 5: Tích hợp AI (OCR) & Lưu vết Truy cập (Audit Trail)
+# Week 5: EDMS Project - Backend Logic & API Gateway
+*Tuần 5: Dự án EDMS - Xử lý logic Backend và API Gateway*
 
-### Week 5 Objectives:
+### Objectives | Mục tiêu tuần 5
 
-* Tích hợp công cụ quét ảnh (OCR) để tự động nhận diện chữ từ tài liệu hình ảnh/PDF.
-* Cấu hình luồng xử lý sự kiện bất đồng bộ (asynchronous) thông qua S3 Event và Amazon EventBridge.
-* Hoàn thiện hệ thống nhật ký truy cập (AuditLogs) trên DynamoDB để giám sát các hành vi nhạy cảm của người dùng.
-
-### Tasks to be carried out this week:
-
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | Tích hợp công cụ OCR tự động trích xuất văn bản thô từ file tài liệu và lưu vào thực thể OCRResults | 20/07/2026 | 20/07/2026 | Business.pdf |
-| 2 | Cấu hình Amazon EventBridge và S3 Event để kích hoạt luồng xử lý OCR bất đồng bộ khi có file mới | 21/07/2026 | 21/07/2026 | Cả 2 tài liệu |
-| 3 | Lập trình tính năng ghi AuditLog cho các hành động nhạy cảm: DOWNLOAD, EXPORT, UPDATE_PERMISSION, DELETE | 22/07/2026 | 22/07/2026 | Business.pdf |
-| 4 | Thu thập thông tin truy vết chuyên sâu: Thời gian phát sinh (Timestamp), địa chỉ IP máy khách, định danh người dùng (Cognito sub) | 23/07/2026 | 23/07/2026 | Cả 2 tài liệu |
-| 5 | Tối ưu hóa cấu trúc ghi liên tục (write-heavy) của AuditLog trên DynamoDB | 24/07/2026 | 24/07/2026 | README.md |
----
-
-### Chi tiết thực hiện
-
-**1. Trích xuất Dữ liệu Thông minh (OCR)**
-Hệ thống được nâng cấp với khả năng tự động nhận diện và trích xuất chữ (text) từ các tài liệu hình ảnh hoặc tệp PDF rõ chữ, nhằm tiết kiệm thời gian nhập liệu thủ công cho người dùng. Dữ liệu văn bản thô sau khi được quét sẽ được lưu trữ vào thực thể OCRResults, liên kết trực tiếp với tài liệu gốc thông qua `documentId`.
-
-**2. Kiến trúc Xử lý Bất đồng bộ (Event-Driven)**
-Để không làm gián đoạn trải nghiệm người dùng trong quá trình tải file, luồng xử lý OCR được thiết kế theo kiến trúc bất đồng bộ. Khi tệp vật lý được tải lên S3 thành công, một sự kiện (S3 Event) kết hợp cùng Amazon EventBridge sẽ được phát đi để kích hoạt Lambda function chạy ngầm xử lý trích xuất văn bản.
-
-**3. Nhật ký Truy vết Doanh nghiệp (Enterprise Audit Trail)**
-Nhằm phục vụ công tác kiểm toán và truy vết rò rỉ dữ liệu, quản trị viên (Administrator) được cung cấp hệ thống lưu vết mọi hành động tải xuống (Download) và thao tác nhạy cảm. 
-Dữ liệu nhật ký được thiết kế dạng append-only (chỉ ghi thêm) trên DynamoDB nhằm đáp ứng tần suất ghi liên tục (write-heavy). Mọi bản ghi AuditLog đều đính kèm thông tin bắt buộc gồm: mốc thời gian (Timestamp), địa chỉ IP của máy khách khi thực hiện lệnh, định danh người dùng và chi tiết siêu dữ liệu thao tác.
+* Develop core document management APIs (CRUD) using Java 17 and AWS Lambda.
+  *Phát triển các API quản lý tài liệu cốt lõi (CRUD) bằng Java 17 và AWS Lambda.*
+* Implement Versioning Control, Role-Based Access Control (RBAC), and optimize performance.
+  *Triển khai kiểm soát phiên bản, phân quyền truy cập (RBAC) và tối ưu hóa hiệu năng.*
 
 ---
 
-### Khó khăn & Giải pháp
+### Tasks Completed | Công việc đã thực hiện
 
-* **Khó khăn:** Các tài liệu định dạng PDF hoặc hình ảnh có dung lượng lớn thường mất nhiều thời gian để thực hiện quét OCR. Nếu xử lý đồng bộ (synchronous) ngay khi người dùng upload file, API Gateway sẽ bị quá thời gian chờ (timeout), gây lỗi hệ thống.
-* **Giải pháp:** Phân tách hoàn toàn quy trình tải file và quy trình xử lý dữ liệu AI. Lambda function xử lý API upload chỉ làm nhiệm vụ ghi nhận metadata của file và trả về phản hồi thành công ngay lập tức cho client. Tác vụ OCR nặng nề được đẩy về phía hậu cảnh (background) và được kích hoạt tự động qua EventBridge.
+| Day | Task Details | Date |
+| :---: | :--- | :---: |
+| **1** | **Core API Development**<br>- Programmed Lambda functions (`document_crud`, `list_documents`) using Java 17 (Amazon Corretto) to handle document creation and retrieval.<br><br>*Phát triển API Cốt lõi*<br>*- Lập trình các hàm Lambda bằng Java 17 (Amazon Corretto) để xử lý việc tạo và truy xuất tài liệu.* | 30/06/2025 |
+| **2** | **Code Optimization (Lambda Layers)**<br>- Extracted shared libraries and utilities from 9 independent Lambda functions into AWS Lambda Layers to reduce deployment package size.<br><br>*Tối ưu Mã nguồn (Lambda Layers)*<br>*- Trích xuất các thư viện và mã dùng chung từ 9 hàm Lambda độc lập thành AWS Lambda Layers để giảm kích thước gói triển khai.* | 01/07/2025 |
+| **3** | **Versioning Control & Rollback**<br>- Implemented version control logic to automatically generate a new `versionNumber` upon edits.<br>- Built a Rollback feature that restores previous versions while locking historical data in Read-only mode.<br><br>*Quản lý Phiên bản & Khôi phục*<br>*- Triển khai logic kiểm soát phiên bản, tự động sinh số phiên bản mới khi có chỉnh sửa.*<br>*- Xây dựng tính năng Rollback giúp khôi phục bản cũ và khóa dữ liệu lịch sử ở chế độ Chỉ xem.* | 02/07/2025 |
+| **4** | **Role-Based Access Control (RBAC)**<br>- Finalized the Permissions module to enforce strict access boundaries for Owners, Editors, and Viewers at the API level.<br><br>*Phân quyền Truy cập (RBAC)*<br>*- Hoàn thiện module Phân quyền để thiết lập ranh giới truy cập nghiêm ngặt cho Chủ sở hữu, Người chỉnh sửa và Người xem ngay tại tầng API.* | 03/07/2025 |
+| **5** | **Cold Start Mitigation (SnapStart)**<br>- Resolved Java 17 cold start delays (1-3s) by enabling AWS Lambda SnapStart, taking pre-initialized JVM snapshots to accelerate response times.<br><br>*Khắc phục Khởi động lạnh (SnapStart)*<br>*- Giải quyết tình trạng khởi động chậm của Java 17 (1-3s) bằng cách bật AWS Lambda SnapStart, chụp sẵn bộ nhớ JVM để tăng tốc độ phản hồi.* | 04/07/2025 |
+
+---
+
+### Results Achieved | Kết quả đạt được
+
+* **Robust Backend Logic:** Successfully deployed a fully functional, secure, and version-controlled backend API capable of handling complex document workflows.
+  *Logic Backend Vững chắc: Triển khai thành công API backend đầy đủ chức năng, bảo mật và có khả năng kiểm soát phiên bản để xử lý các luồng tài liệu phức tạp.*
+
+* **High-Performance Execution:** Dramatically improved API response times and user experience by leveraging Lambda Layers for efficient code management and SnapStart for instant execution.
+  *Thực thi Hiệu năng cao: Cải thiện đáng kể thời gian phản hồi API và trải nghiệm người dùng nhờ tận dụng Lambda Layers để quản lý mã hiệu quả và SnapStart để thực thi tức thì.*

@@ -1,45 +1,37 @@
 ---
-title: "1.4. Week 4 Worklog"
+title: "Week 4: EDMS Project - Database & Storage Setup"
+date: 2026-08-11
 weight: 14
-draft: false
+chapter: false
 ---
 
-# 1.4. Week 4: Xây dựng API Cốt lõi (Backend Java 17)
+# Week 4: EDMS Project - Database & Storage Setup
+*Tuần 4: Dự án EDMS - Thiết lập Cơ sở dữ liệu và Lưu trữ*
 
-### Week 4 Objectives:
+### Objectives | Mục tiêu tuần 4
 
-* Phát triển các Lambda function xử lý nghiệp vụ quản lý tài liệu (Document CRUD) bằng ngôn ngữ Java 17.
-* Xây dựng logic quản lý phiên bản (Versioning Control) và tính năng khôi phục (Rollback) cho tài liệu.
-* Xử lý logic phân quyền truy cập tài liệu với các vai trò (Role): Owner, Editor, Viewer.
-
-### Tasks to be carried out this week:
-
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | Lập trình Lambda function `document_crud` bằng Java 17 để tạo, đọc, sửa, xóa tài liệu | 13/07/2026 | 13/07/2026 | README.md |
-| 2 | Xử lý dữ liệu văn bản từ Rich-text editor, tự động chuyển đổi sang định dạng JSON để lưu trữ | 14/07/2026 | 14/07/2026 | Business.pdf |
-| 3 | Triển khai luồng quản lý phiên bản, tự động sinh `versionNumber` mới sau mỗi lần Editor lưu | 15/07/2026 | 15/07/2026 | Business.pdf |
-| 4 | Lập trình chức năng Rollback, cho phép khôi phục bản cũ và khóa các bản trong quá khứ ở chế độ Read-only | 16/07/2026 | 16/07/2026 | Business.pdf |
-| 5 | Hoàn thiện module Phân quyền (Permissions), thiết lập từ chối truy cập nếu không có quyền hợp lệ | 17/07/2026 | 17/07/2026 | Business.pdf |
+* Design and implement a Polyglot Persistence database architecture using Amazon Aurora and DynamoDB.
+  *Thiết kế và triển khai kiến trúc cơ sở dữ liệu đa mô hình (Polyglot Persistence) sử dụng Amazon Aurora và DynamoDB.*
+* Configure secure object storage for physical files and set up centralized user authentication.
+  *Cấu hình kho lưu trữ đối tượng an toàn cho tệp vật lý và thiết lập hệ thống xác thực người dùng tập trung.*
 
 ---
 
-### Chi tiết thực hiện
+### Tasks Completed | Công việc đã thực hiện
 
-**1. Xây dựng API Quản lý Tài liệu**
-Backend của hệ thống được phát triển hoàn toàn bằng Java 17 (Amazon Corretto) và AWS SDK v2. Các hàm Lambda cốt lõi như `document_crud`, `list_documents`, `folder_mgmt` đã được lập trình để xử lý dữ liệu truyền lên từ không gian soạn thảo trực tuyến (Rich-text Editing Workspace). Tại Frontend, các định dạng văn bản đặc thù (Heading, Code Snippet, Highlight) được tự động chuyển đổi sang định dạng JSON trước khi Backend tiến hành lưu trữ xuống cơ sở dữ liệu.
-
-**2. Quản lý Phiên bản (Versioning Control)**
-Nhằm bảo vệ tính toàn vẹn của lịch sử tài liệu, hệ thống tự động ghi nhận mọi thao tác chỉnh sửa của các thành viên (Editor) thành các phiên bản độc lập. 
-* Mặc định, phiên bản mới nhất (`versionNumber` lớn nhất) sẽ được đặt làm bản hiện hành (`isCurrent: true`). 
-* Khi người dùng thực hiện thao tác Rollback, hệ thống sẽ khôi phục một version cũ làm bản sử dụng chung, đồng thời các version trong quá khứ sẽ tự động bị khóa ở chế độ "Chỉ xem" (Read-only).
-
-**3. Kiểm soát Phân quyền Truy cập (RBAC)**
-Hệ thống hoàn thiện logic phân quyền thông qua thực thể Permissions. Chủ sở hữu tài liệu (Owner) được cấp công cụ để chia sẻ quyền hạn cho các thành viên khác bao gồm View Only (Viewer - chỉ xem) và Editor (được phép chỉnh sửa). Hệ thống được cấu hình để từ chối truy cập lập tức nếu người dùng gửi request không đi kèm quyền hợp lệ trong bảng Permissions.
+| Day | Task Details | Date |
+| :---: | :--- | :---: |
+| **1** | **Database Schema Design**<br>- Designed the Polyglot Persistence schema: Aurora Serverless v2 (MySQL) for relational data (Documents, Versions, Tags) and DynamoDB for AuditLogs.<br><br>*Thiết kế Lược đồ CSDL*<br>*- Thiết kế lược đồ đa mô hình: Aurora Serverless v2 (MySQL) cho dữ liệu quan hệ (Tài liệu, Phiên bản, Nhãn) và DynamoDB cho Nhật ký hệ thống (AuditLogs).* | 23/06/2025 |
+| **2** | **DynamoDB & TTL Configuration**<br>- Configured the DynamoDB AuditLogs table with Partition Key (`DOC#<documentId>`) and Sort Key (`LOG#<timestamp>`).<br>- Enabled Time-To-Live (TTL) to automatically delete expired logs and save costs.<br><br>*Cấu hình DynamoDB & TTL*<br>*- Cấu hình bảng AuditLogs trên DynamoDB với Khóa phân vùng và Khóa sắp xếp.*<br>*- Bật tính năng Time-To-Live (TTL) để tự động xóa log cũ nhằm tiết kiệm chi phí.* | 24/06/2025 |
+| **3** | **Identity Management with Cognito**<br>- Integrated Amazon Cognito User Pool to handle login and password verification.<br>- Created user groups (e.g., HR, SALES) to support enterprise-level role-based access control.<br><br>*Quản lý Danh tính với Cognito*<br>*- Tích hợp Amazon Cognito User Pool để xử lý đăng nhập và xác thực mật khẩu.*<br>*- Tạo các nhóm người dùng (VD: HR, SALES) để hỗ trợ phân quyền cấp doanh nghiệp.* | 25/06/2025 |
+| **4** | **Secure Storage with S3 Presigned URLs**<br>- Set up an Amazon S3 bucket for physical file storage.<br>- Engineered a secure upload mechanism using Presigned URLs with a strict 5-10 minute expiration window to prevent bandwidth abuse.<br><br>*Lưu trữ Bảo mật với S3 Presigned URLs*<br>*- Thiết lập bucket Amazon S3 để lưu trữ tệp vật lý.*<br>*- Xây dựng cơ chế tải lên an toàn bằng Presigned URLs với thời gian sống ngắn (5-10 phút) để tránh lạm dụng băng thông.* | 26/06/2025 |
 
 ---
 
-### Khó khăn & Giải pháp
+### Results Achieved | Kết quả đạt được
 
-* **Khó khăn:** Các hàm Lambda viết bằng Java 17 thường gặp phải tình trạng khởi động chậm (Cold start) mất khoảng 1-3s, chậm hơn nhiều so với Python, gây ảnh hưởng đến trải nghiệm người dùng khi gọi API lần đầu.
-* **Giải pháp:** Áp dụng tính năng Lambda SnapStart (chỉ hỗ trợ cho môi trường Java). Việc khai báo thuộc tính `SnapStart: ApplyOn: PublishedVersions` trong template cấu hình giúp AWS chụp sẵn snapshot của JVM đã được khởi tạo (init), từ đó giảm đáng kể thời gian khởi động lạnh của hệ thống khi có request.
+* **Scalable Database Architecture:** Successfully decoupled the write-heavy AuditLog stream to DynamoDB, fully resolving potential performance bottlenecks on the main Aurora relational database.
+  *Kiến trúc CSDL Mở rộng: Tách biệt thành công luồng ghi log mật độ cao sang DynamoDB, giải quyết triệt để bài toán thắt cổ chai hiệu năng trên hệ cơ sở dữ liệu quan hệ Aurora chính.*
+
+* **Enterprise-Grade Security:** Established a robust security perimeter by combining Cognito for identity management and short-lived S3 Presigned URLs for direct, credential-free file uploads.
+  *Bảo mật Cấp Doanh nghiệp: Thiết lập vành đai bảo mật vững chắc nhờ kết hợp Cognito để quản lý danh tính và S3 Presigned URLs có thời hạn ngắn để tải file trực tiếp mà không lộ thông tin xác thực.*

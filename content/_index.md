@@ -1,44 +1,39 @@
 ---
-title: "Internship Report"
-date: 2024-01-01
+title: "Internship Report | Báo cáo thực tập"
+date: 2026-08-11
 weight: 1
 chapter: false
 ---
 
-    
-# Internship Report
+# Internship Report | Báo cáo thực tập
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
+### Student Information | Thông tin sinh viên:
+&emsp; **Full Name (Họ tên):** Huỳnh Phúc Hưng
 
-### Student Information:
-&emsp; **Full Name:** Huỳnh Phúc Hưng
-
-&emsp; **Phone Number:** 0796864189
+&emsp; **Phone Number (Số điện thoại):** 0796864189
 
 &emsp; **Email:** huynhphuchung3001@gmail.com
 
-&emsp; **University:** Saigon University
+&emsp; **University (Trường):** Saigon University
 
-&emsp; **Major:** Information Technology
+&emsp; **Major (Chuyên ngành):** Information Technology
 
-&emsp; **Class:** FCAJ
+&emsp; **Class (Lớp):** FCAJ
 
-&emsp; **Internship Company:** Amazon Web Services Viet Nam Company Limited
+&emsp; **Internship Company (Công ty thực tập):** Amazon Web Services Viet Nam Company Limited
 
-&emsp; **Internship Position:** Workforce Bootcamp - First Cloud AI Journey
+&emsp; **Internship Position (Vị trí thực tập):** Workforce Bootcamp - First Cloud AI Journey
 
-&emsp; **Internship Duration:** From 06/2025 to 08/2025
+&emsp; **Internship Duration (Thời gian thực tập):** 06/2025 - 08/2025
 
 ![Your profile picture](/images/avatar.jpg)
 
-### Report Content
+### Report Content | Nội dung báo cáo
 
-1.  [Worklog](1-Worklog/)
-2.  [Proposal](2-Proposal/)
-3.  [BlogsPosted](3-BlogsPosted/)
-4.  [Events Participated](4-EventParticipated/)
-5.  [Workshop](5-Workshop/)
-6.  [Self-evaluation](6-Self-evaluation/)
-7.  [Sharing and Feedback](7-Feedback/)
+1.  [Worklog | Nhật ký thực tập](1-Worklog/)
+2.  [Proposal | Đề xuất dự án](2-Proposal/)
+3.  [Blogs Posted | Bài viết chuyên môn](3-BlogsPosted/)
+4.  [Events Participated | Sự kiện tham gia](4-EventParticipated/)
+5.  [Workshop | Project kỹ thuật](5-Workshop/)
+6.  [Self-evaluation | Tự đánh giá](6-Self-evaluation/)
+7.  [Sharing and Feedback | Chia sẻ và phản hồi](7-Feedback/)

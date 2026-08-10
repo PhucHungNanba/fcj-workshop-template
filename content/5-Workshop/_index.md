@@ -1,31 +1,26 @@
 ---
 title: "Workshop"
-date: 2024-01-01
+date: 2026-08-11
 weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Secure Hybrid Access to S3 using VPC Endpoints
+# Serverless Electronic Document Management System (EDMS) trên AWS
 
-#### Overview
+#### Overview | Tổng quan
 
-**AWS PrivateLink** provides private connectivity to AWS services from VPCs and your on-premises networks, without exposing your traffic to the Public Internet.
+**Electronic Document Management System (EDMS)** is a serverless application deployed on AWS that allows users to securely store, retrieve, and manage documents. 
+*(Hệ thống Quản lý Tài liệu Điện tử là một ứng dụng serverless được triển khai trên AWS, cho phép người dùng lưu trữ, truy xuất và quản lý tài liệu một cách bảo mật.)*
 
-In this lab, you will learn how to create, configure, and test VPC endpoints that enable your workloads to reach AWS services without traversing the Public Internet.
+In this workshop, you will learn how to build an end-to-end architecture using **AWS API Gateway** for routing, **AWS Lambda** for compute, **Amazon S3** for document storage, and **Amazon Aurora (MySQL)** for relational metadata storage.
+*(Trong workshop này, bạn sẽ học cách xây dựng một kiến trúc toàn diện sử dụng API Gateway để định tuyến, Lambda để xử lý logic, S3 để lưu trữ file và Aurora MySQL để lưu trữ siêu dữ liệu.)*
 
-You will create two types of endpoints to access Amazon S3: a Gateway VPC endpoint, and an Interface VPC endpoint. These two types of VPC endpoints offer different benefits depending on if you are accessing Amazon S3 from the cloud or your on-premises location
-+ **Gateway** - Create a gateway endpoint to send traffic to Amazon S3 or DynamoDB using private IP addresses.You route traffic from your VPC to the gateway endpoint using route tables.
-+ **Interface** - Create an interface endpoint to send traffic to endpoint services that use a Network Load Balancer to distribute traffic. Traffic destined for the endpoint service is resolved using DNS.
+#### Content | Nội dung
 
-#### Content
-
-1. [Workshop overview](5.1-Workshop-overview)
-2. [Prerequiste](5.2-Prerequiste/)
-3. [Access S3 from VPC](5.3-S3-vpc/)
-4. [Access S3 from On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (Bonus)](5.5-Policy/)
-6. [Clean up](5.6-Cleanup/)
+1. [Workshop Overview | Tổng quan Workshop](5.1-Workshop-overview)
+2. [Prerequisites | Điều kiện tiên quyết](5.2-Prerequisite/)
+3. [Architecture Design | Thiết kế kiến trúc](5.3-Architecture/)
+4. [Step-by-step Deployment | Triển khai chi tiết](5.4-Deployment/)
+5. [Test & Validation | Kiểm thử](5.5-Test/)
+6. [Clean up | Dọn dẹp tài nguyên](5.6-Cleanup/)

@@ -1,48 +1,38 @@
 ---
-title: "1.2. Week 2 Worklog"
+title: "Week 2: Exploring Core AWS Services"
+date: 2026-08-11
 weight: 12
-draft: false
+chapter: false
 ---
 
-# 1.2. Week 2: Thiết kế Cơ sở dữ liệu & Phân tích Nghiệp vụ
+# Week 2: Exploring Core AWS Services
+*Tuần 2: Tìm hiểu các dịch vụ cốt lõi của AWS (IAM, EC2, S3)*
 
-### Week 2 Objectives:
+### Objectives | Mục tiêu tuần 2
 
-* Phân tích chi tiết các thực thể nghiệp vụ (Entities) của hệ thống EDMS.
-* Thiết kế lược đồ cơ sở dữ liệu (Database Schema) áp dụng kiến trúc Polyglot Persistence (Aurora Serverless v2 và DynamoDB).
-* Hoàn thiện kịch bản kiểm thử biên dịch cục bộ (Local Build) với Maven cho các module backend Java 17.
-
-### Tasks to be carried out this week:
-
-| Day | Task | Start Date | Completion Date | Reference Material |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | - Phân tích kiến trúc Serverless v2<br>- Đánh giá các dịch vụ AWS: Cognito, S3, Lambda, API Gateway<br>- Thống nhất sử dụng Aurora Serverless v2 (MySQL) và DynamoDB | 22/06/2026 | 22/06/2026 | Tài liệu kiến trúc EDMS |
-| 2 | - Khởi tạo tài khoản AWS chung<br>- Thiết lập bảo mật Root user (MFA)<br>- Tạo IAM User riêng biệt cho các thành viên<br>- Cấu hình Billing Alarm ($5/tháng) | 23/06/2026 | 23/06/2026 | AWS IAM & Billing Documentation |
-| 3 | - Cài đặt môi trường lập trình: JDK 17 (Amazon Corretto), Maven 3.8+, AWS SAM CLI<br>- Cấu hình AWS CLI với Access Key cá nhân | 24/06/2026 | 24/06/2026 | AWS SAM CLI Setup Guide |
-| 4 | - Khởi tạo GitHub repository và phân quyền<br>- Thiết lập các branch tiêu chuẩn (main, develop)<br>- Phân tích và chuẩn bị luồng xác thực OIDC cho GitHub Actions | 25/06/2026 | 25/06/2026 | GitHub Actions OIDC Trust Policy |
-| 5 | - Báo cáo tiến độ tuần 1<br>- Lên kế hoạch chi tiết cho việc thiết kế Database ở tuần tiếp theo | 26/06/2026 | 26/06/2026 | EDMS-Master-Checklist |
+* Deep dive into AWS Identity and Access Management (IAM) to understand permissions and roles.
+  *Tìm hiểu chuyên sâu về IAM để nắm rõ cách quản lý quyền và vai trò (roles).*
+* Gain hands-on experience provisioning and connecting to cloud virtual machines (EC2).
+  *Thực hành khởi tạo và kết nối trực tiếp vào máy chủ ảo trên đám mây (EC2).*
+* Explore object storage solutions and deploy a simple static website using Amazon S3.
+  *Khám phá giải pháp lưu trữ đối tượng và triển khai một trang web tĩnh đơn giản bằng Amazon S3.*
 
 ---
 
-### Chi tiết thực hiện
+### Tasks Completed | Công việc đã thực hiện
 
-**1. Phân tích Thực thể Nghiệp vụ (Business Entities)**
-Hệ thống EDMS quản lý các thực thể cốt lõi bao gồm: Users (Người dùng), Documents (Tài liệu gốc), DocumentVersions (Phiên bản nội dung), Permissions (Quyền truy cập), Tags (Nhãn phân loại), Files (Tệp vật lý đính kèm), OCRResults (Kết quả trích xuất văn bản) và AuditLogs (Nhật ký truy vết). Dựa trên phân tích này, hệ thống áp dụng mô hình phân quyền (RBAC) để kiểm soát quyền Owner, Editor và Viewer.
-
-**2. Thiết kế Cơ sở dữ liệu đa mô hình (Polyglot Persistence)**
-Thay vì sử dụng một loại database duy nhất, kiến trúc v2 được thiết kế kết hợp:
-* **Aurora Serverless v2 (MySQL):** Quản lý các dữ liệu có quan hệ phức tạp (Foreign Keys) như Document, Version, Permission, Tag. Cấu trúc được chuẩn hoá 3NF để đảm bảo tính toàn vẹn dữ liệu.
-* **Amazon DynamoDB:** Quản lý AuditLog, chuyên xử lý các tác vụ ghi liên tục (write-heavy) và không cần JOIN.
-
-**3. Thiết kế bảng AuditLog trên DynamoDB**
-Bảng AuditLogs được cấu hình để truy xuất lịch sử thao tác (ví dụ: UPLOAD, VIEW, DOWNLOAD, APPROVE) theo từng tài liệu. Cấu trúc khóa được thiết kế với Partition Key (PK) là `DOC#<documentId>` và Sort Key (SK) là `LOG#<timestamp>`. Đồng thời, thuộc tính `ttl` (Time-To-Live) được định nghĩa bổ sung để hệ thống tự động xóa các log quá hạn nhằm tiết kiệm dung lượng lưu trữ.
-
-**4. Chuẩn bị công cụ Build Local**
-Vì dự án bao gồm 9 Lambda function độc lập được phát triển bằng Java 17, các kịch bản biên dịch đã được thiết lập thông qua Maven. Lệnh `mvn -q clean package` được chạy vòng lặp cho từng thư mục module để đóng gói fat-jar bằng `maven-shade-plugin`, giúp phát hiện lỗi compile sớm trước khi đẩy mã nguồn lên Cloud.
+| Day | Task Details | Date |
+| :---: | :--- | :---: |
+| **1** | **Identity and Access Management (IAM)**<br>- Studied IAM Policies, User Groups, and IAM Roles.<br>- Practiced writing custom JSON policies to restrict access to specific resources.<br><br>*Quản lý Truy cập (IAM)*<br>*- Nghiên cứu về IAM Policies, Nhóm người dùng và Vai trò (Roles).*<br>*- Thực hành viết các policy bằng JSON để giới hạn quyền truy cập vào các tài nguyên cụ thể.* | 09/06/2025 |
+| **2** | **Elastic Compute Cloud (EC2)**<br>- Launched a Linux EC2 instance (t2.micro) and configured Security Groups for SSH and HTTP access.<br>- Successfully connected to the instance using SSH via terminal and tested basic Linux commands.<br><br>*Máy chủ ảo (EC2)*<br>*- Khởi tạo máy chủ EC2 Linux (t2.micro) và cấu hình Security Groups mở port SSH, HTTP.*<br>*- Kết nối thành công vào máy chủ thông qua SSH trên terminal và chạy thử các lệnh Linux cơ bản.* | 11/06/2025 |
+| **3** | **Simple Storage Service (S3)**<br>- Created an S3 Bucket and explored features like Versioning and Block Public Access.<br>- Uploaded HTML/CSS files to host a static website and accessed it via the S3 endpoint URL.<br><br>*Dịch vụ lưu trữ (S3)*<br>*- Tạo S3 Bucket và tìm hiểu các tính năng như Versioning, chặn truy cập công khai.*<br>*- Tải file HTML/CSS lên để chạy một trang web tĩnh và truy cập thành công qua đường link của S3.* | 13/06/2025 |
 
 ---
 
-### Khó khăn & Giải pháp
+### Results Achieved | Kết quả đạt được
 
-* **Khó khăn:** Việc lưu trữ khối lượng lớn nhật ký truy vết (AuditLog) vào cơ sở dữ liệu quan hệ Aurora MySQL có thể làm giảm hiệu năng hệ thống khi bảng phình to và làm tăng đáng kể chi phí lưu trữ.
-* **Giải pháp:** Tách hoàn toàn tính năng lưu AuditLog sang DynamoDB (NoSQL) với thiết kế append-only. Việc truy vấn chỉ thực hiện dựa trên `documentId` để xem lịch sử truy cập, kết hợp TTL (tự động dọn rác), giúp giải quyết triệt để bài toán thắt cổ chai hiệu năng của hệ cơ sở dữ liệu chính.
+* **Compute Proficiency:** Successfully provisioned an EC2 instance and securely accessed it remotely. Understood how Security Groups act as virtual firewalls to protect instances.
+  *Thành thạo Máy chủ ảo: Khởi tạo và kết nối bảo mật thành công vào máy chủ EC2 từ xa. Hiểu rõ cách Security Groups hoạt động như một bức tường lửa ảo để bảo vệ hệ thống.*
+
+* **Storage Configuration:** Mastered the basics of object storage. Successfully transformed a standard S3 bucket into a globally accessible static website, demonstrating an understanding of bucket policies and public access configurations.
+  *Cấu hình Lưu trữ: Nắm vững kiến thức cơ bản về lưu trữ đối tượng. Chuyển đổi thành công một bucket S3 thông thường thành trang web tĩnh có thể truy cập toàn cầu, thể hiện khả năng hiểu rõ về chính sách bucket và cấu hình truy cập.*
