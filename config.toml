@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://PhucHungNanba.github.io/fcj-workshop-template/"
 relativeURLs = false
 canonifyURLs = false
 defaultContentLanguage = "en"
