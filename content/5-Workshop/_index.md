@@ -1,26 +1,41 @@
 ---
 title: "Workshop"
-date: 2026-08-11
+date: 2024-01-01
 weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Serverless Electronic Document Management System (EDMS) trên AWS
+# Serverless Document Management with EDMS - Document Platform
 
-#### Overview | Tổng quan
+### Overview
 
-**Electronic Document Management System (EDMS)** is a serverless application deployed on AWS that allows users to securely store, retrieve, and manage documents. 
-*(Hệ thống Quản lý Tài liệu Điện tử là một ứng dụng serverless được triển khai trên AWS, cho phép người dùng lưu trữ, truy xuất và quản lý tài liệu một cách bảo mật.)*
+This workshop guides you through the entire process of building, developing, and operating **EDMS (Enterprise Document Collaboration Platform)** - a document management and collaboration application - on the Amazon Web Services (AWS) platform. The project employs a modern Cloud & DevOps model, featuring a fully automated CI/CD pipeline and a comprehensive serverless architecture.
 
-In this workshop, you will learn how to build an end-to-end architecture using **AWS API Gateway** for routing, **AWS Lambda** for compute, **Amazon S3** for document storage, and **Amazon Aurora (MySQL)** for relational metadata storage.
-*(Trong workshop này, bạn sẽ học cách xây dựng một kiến trúc toàn diện sử dụng API Gateway để định tuyến, Lambda để xử lý logic, S3 để lưu trữ file và Aurora MySQL để lưu trữ siêu dữ liệu.)*
+The workshop is divided into key stages:
 
-#### Content | Nội dung
+- **Infrastructure**: Setting up the AWS service foundation (S3, Aurora, IAM, Cognito)
+- **Deployment**: Building a CI/CD pipeline using GitHub Actions and deploying the application to Lambda + API Gateway
+- **Operations**: Configuring auto-scaling, monitoring, cost alerts, and end-to-end testing
+- **Illustrations**: Reference list of all screenshots used in the workshop
 
-1. [Workshop Overview | Tổng quan Workshop](5.1-Workshop-overview)
-2. [Prerequisites | Điều kiện tiên quyết](5.2-Prerequisite/)
-3. [Architecture Design | Thiết kế kiến trúc](5.3-Architecture/)
-4. [Step-by-step Deployment | Triển khai chi tiết](5.4-Deployment/)
-5. [Test & Validation | Kiểm thử](5.5-Test/)
-6. [Clean up | Dọn dẹp tài nguyên](5.6-Cleanup/)
+### Architecture Summary
+
+The system is organized into the following main layers:
+
+| Layer | Components |
+|-------|------------|
+| CI/CD | GitHub Actions, OIDC, AWS STS, AWS SAM / CloudFormation |
+| Presentation | AWS Amplify (React Frontend) |
+| Application | Amazon API Gateway, AWS Lambda (Spring Boot) |
+| Data | Amazon Aurora MySQL, Amazon S3 |
+| Workflow | AWS Step Functions, Amazon SNS |
+| Monitoring | Amazon CloudWatch, AWS Budgets |
+
+### Contents
+
+1. [Introduction](5.1-Workshop-overview/)
+2. [Prerequisites](5.2-Prerequisite/)
+3. [Design and Build EDMS Infrastructure on AWS](5.3-Edms-infrastructure/)
+4. [Deploying EDMS on AWS](5.4-Edms-deployment/)
+5. [Testing, Operations, and Continuous Deployment](5.5-Edms-operations/)

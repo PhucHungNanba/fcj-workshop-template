@@ -1,21 +1,21 @@
 ---
 title: "Self-Assessment"
-date: 2024-01-01
 weight: 6
 chapter: false
 pre: " <b> 6. </b> "
 ---
 
 {{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
+⚠️ **Note:** The information below is my personal self-evaluation for the internship period.
 {{% /notice %}}
 
-During my internship at **[Company/Organization Name]** from **[start date]** to **[end date]**, I had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
-I participated in **[briefly describe the main project or task]**, through which I improved my skills in **[list skills: programming, analysis, reporting, communication, etc.]**.  
+During my internship at the **AWS First Cloud AI Journey (FCAJ) program** from **June 22, 2026** to **August 16, 2026**, I had the opportunity to learn, practice, and apply the knowledge acquired in university to a real-world cloud engineering environment.  
 
-In terms of work ethic, I always strived to complete tasks well, complied with workplace regulations, and actively engaged with colleagues to improve work efficiency.
+I participated in designing and building a **Serverless Electronic Document Management System (EDMS)**, through which I significantly improved my skills in **cloud architecture, backend development with Java 17, Infrastructure as Code (AWS SAM), and collaborative teamwork**.  
 
-To objectively reflect on my internship period, I would like to evaluate myself based on the following criteria:
+In terms of work ethic, I always strived to complete tasks well, adhered to architectural best practices, and actively engaged with my group partner and mentors to improve overall work efficiency.
+
+To objectively reflect on my internship period, I evaluate myself based on the following criteria:
 
 | No. | Criteria                            | Description                                                                                      | Good | Fair | Average |
 | --- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | ---- | ---- | ------- |
@@ -34,6 +34,6 @@ To objectively reflect on my internship period, I would like to evaluate myself 
 
 ### Needs Improvement
 
-* Strengthen discipline and strictly comply with the rules and regulations of the company or any organization  
-* Improve problem-solving thinking  
-* Enhance communication skills in both daily interactions and professional contexts, including handling situations effectively
+* Strengthen personal discipline and strictly comply with time management schedules during remote development phases.  
+* Improve problem-solving thinking, specifically in debugging distributed systems faster.  
+* Enhance communication skills in professional contexts, ensuring technical ideas are conveyed clearly to non-technical stakeholders.
